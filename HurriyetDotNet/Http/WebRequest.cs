@@ -35,20 +35,21 @@ namespace HurriyetDotNet.Http
 
                         if (response.StatusCode == HttpStatusCode.OK)
                         {
-                            KeyValuePair<String, IEnumerable<String>> usage = response.Headers.ToList().Find(x => x.Key.Equals("X-RateLimit-Remaining-hour"));
 
-                            if (usage.Value != null)
+                            string usageHour = response.Headers.GetValues("X-RateLimit-Remaining-hour").First();
+                            string limitHour = response.Headers.GetValues("X-RateLimit-Limit-hour").First();
+
+                            string usageSec = response.Headers.GetValues("X-RateLimit-Remaining-second").First();
+                            string limitSec = response.Headers.GetValues("X-RateLimit-Limit-second").First();
+
+                            if (!string.IsNullOrEmpty(usageHour) && !string.IsNullOrEmpty(usageSec))
                             {
-                                Limits.Usage = new Usage(Int32.Parse(usage.Value.ElementAt(0).Split(',')[0]),
-                                    Int32.Parse(usage.Value.ElementAt(0).Split(',')[1]));
+                                Limits.Usage = new Usage(Int32.Parse(usageSec), Int32.Parse(usageHour));
                             }
 
-                            KeyValuePair<String, IEnumerable<String>> limit = response.Headers.ToList().Find(x => x.Key.Equals("X-RateLimit-Limit-hour"));
-
-                            if (limit.Value != null)
+                            if (!string.IsNullOrEmpty(limitHour) && !string.IsNullOrEmpty(limitSec))
                             {
-                                Limits.Limit = new Limit(Int32.Parse(limit.Value.ElementAt(0).Split(',')[0]),
-                                    Int32.Parse(limit.Value.ElementAt(0).Split(',')[1]));
+                                Limits.Limit = new Limit(Int32.Parse(usageSec), Int32.Parse(usageHour));
                             }
 
                             ResponseCode = response.StatusCode;
@@ -74,18 +75,20 @@ namespace HurriyetDotNet.Http
                 {
                     ResponseReceived?.Invoke(null, new ResponseReceivedEventArgs(httpResponse));
 
-                    string usage = httpResponse.GetResponseHeader("X-RateLimit-Remaining-hour");
+                    string usageHour = httpResponse.GetResponseHeader("X-RateLimit-Remaining-hour");
+                    string limitHour = httpResponse.GetResponseHeader("X-RateLimit-Limit-hour");
 
-                    string limit = httpResponse.GetResponseHeader("X-RateLimit-Limit-hour");
+                    string usageSec = httpResponse.GetResponseHeader("X-RateLimit-Remaining-second");
+                    string limitSec = httpResponse.GetResponseHeader("X-RateLimit-Limit-second");
 
-                    if (!string.IsNullOrEmpty(usage))
+                    if (!string.IsNullOrEmpty(usageHour) && !string.IsNullOrEmpty(usageSec))
                     {
-                        Limits.Usage = new Usage(Int32.Parse(usage.Split(',')[0]), Int32.Parse(usage.Split(',')[1]));
+                        Limits.Usage = new Usage(Int32.Parse(usageSec), Int32.Parse(usageHour));
                     }
 
-                    if (!string.IsNullOrEmpty(limit))
+                    if (!string.IsNullOrEmpty(limitHour) && !string.IsNullOrEmpty(limitSec))
                     {
-                        Limits.Limit = new Limit(Int32.Parse(limit.Split(',')[0]), Int32.Parse(limit.Split(',')[1]));
+                        Limits.Limit = new Limit(Int32.Parse(usageSec), Int32.Parse(usageHour));
                     }
 
                     StreamReader reader = new StreamReader(responseStream);

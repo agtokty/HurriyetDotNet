@@ -97,11 +97,6 @@ namespace HurriyetDotNet.Client
             throw new NotImplementedException();
         }
 
-
-
-
-
-
         /// <summary>
         /// 
         /// </summary>
@@ -212,6 +207,23 @@ namespace HurriyetDotNet.Client
         #region Async
 
         //TODO - ArticleClient Async metodlar
+
+        public async Task<Article> GetArticleAsync(string id)
+        {
+            string getUrl = string.Format("{0}/{1}/?apikey={2}", Endpoints.Articles, id, Authentication.AccessToken);
+            string json = await Http.WebRequest.SendGetAsync(new Uri(getUrl));
+
+            return Deserializer<Article>.Deserialize(json);
+        }
+
+        public async Task<List<Article>> GetLastNArticlesAsync(int lastN)
+        {
+            if (lastN <= 0)
+                lastN = 1;
+            string getUrl = string.Format("{0}/?$top={1}&apikey={2}", Endpoints.Articles, lastN, Authentication.AccessToken);
+            string json = await Http.WebRequest.SendGetAsync(new Uri(getUrl));
+            return Deserializer<List<Article>>.Deserialize(json);
+        }
 
         #endregion
     }
