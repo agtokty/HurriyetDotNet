@@ -36,20 +36,21 @@ namespace HurriyetDotNet.Http
                         if (response.StatusCode == HttpStatusCode.OK)
                         {
 
-                            string usageHour = response.Headers.GetValues("X-RateLimit-Remaining-hour").First();
-                            string limitHour = response.Headers.GetValues("X-RateLimit-Limit-hour").First();
+                            string usageHour = response.Headers.GetValues("X-Ratelimit-Remaining-Hour").First();
+                            string limitHour = response.Headers.GetValues("X-Ratelimit-Limit-Hour").First();
 
-                            string usageSec = response.Headers.GetValues("X-RateLimit-Remaining-second").First();
-                            string limitSec = response.Headers.GetValues("X-RateLimit-Limit-second").First();
+                            string usageSec = response.Headers.GetValues("X-RateLimit-Remaining-Second").First();
+                            string limitSec = response.Headers.GetValues("X-RateLimit-Limit-Second").First();
 
-                            if (!string.IsNullOrEmpty(usageHour) && !string.IsNullOrEmpty(usageSec))
-                            {
-                                Limits.Usage = new Usage(Int32.Parse(usageSec), Int32.Parse(usageHour));
-                            }
 
                             if (!string.IsNullOrEmpty(limitHour) && !string.IsNullOrEmpty(limitSec))
                             {
-                                Limits.Limit = new Limit(Int32.Parse(usageSec), Int32.Parse(usageHour));
+                                Limits.Limit = new Limit(int.Parse(limitSec), int.Parse(limitHour));
+                            }
+
+                            if (!string.IsNullOrEmpty(usageHour) && !string.IsNullOrEmpty(usageSec))
+                            {
+                                Limits.Usage = new Usage(int.Parse(usageSec), int.Parse(usageHour), int.Parse(limitSec), int.Parse(limitHour));
                             }
 
                             ResponseCode = response.StatusCode;

@@ -11,22 +11,41 @@ namespace HurriyetDotNet.Api
         /// <summary>
         /// Saniye başına kalan istek sayısıdır
         /// </summary>
-        public int ShortTerm { get; set; }
+        public int ShortTermRemaining { get; set; }
 
         /// <summary>
         /// Saat başına kalan istek sayısıdır
         /// </summary>
-        public int LongTerm { get; set; }
+        public int LongTermRemaining { get; set; }
+
+        /// <summary>
+        /// Saniye başına kullanılan istek sayısıdır
+        /// </summary>
+        public int ShortTermUsed { get; set; }
+
+        /// <summary>
+        /// Saat başına kullanılan istek sayısıdır
+        /// </summary>
+        public int LongTermUsed { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="shortTerm"></param>
-        /// <param name="longTerm"></param>
-        public Usage(int shortTerm, int longTerm)
+        /// <param name="shortTermUsed"></param>
+        /// <param name="longTermUsed"></param>
+        public Usage(int shortTermUsed, int longTermUsed)
         {
-            ShortTerm = shortTerm;
-            LongTerm = longTerm;
+            ShortTermUsed = shortTermUsed;
+            LongTermUsed = longTermUsed;
+        }
+
+        public Usage(int shortTermUsed, int longTermUsed, int shortTermLimit, int longTermLimit)
+        {
+            ShortTermUsed = shortTermUsed;
+            LongTermUsed = longTermUsed;
+
+            ShortTermRemaining = shortTermLimit - shortTermUsed;
+            LongTermRemaining = longTermLimit - longTermUsed;
         }
     }
 }

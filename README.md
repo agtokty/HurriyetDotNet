@@ -7,6 +7,10 @@ HurriyetDotNet'i kullanabilmek için api anahtarýna ihtiyacýnýz vardýr.
 Api anahtarýný [Hürriyet developers](https://developers.hurriyet.com.tr)'a üye olduktan sonra alabilirsiniz.
 
 
+NuGet üzerinden indirebilirsiniz.
+
+	PM> Install-Package HurriyetDotNet
+
 HurriyetDotNet Kullanýmý
 ============
 

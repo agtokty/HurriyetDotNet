@@ -30,7 +30,7 @@ namespace HurriyetDotNet.Api
 
                 if (UsageChanged != null)
                 {
-                    UsageChanged(null, new UsageChangedEventArgs(value.ShortTerm, value.LongTerm));
+                    UsageChanged(null, new UsageChangedEventArgs(value.ShortTermRemaining, value.LongTermRemaining));
                 }
             }
         }
