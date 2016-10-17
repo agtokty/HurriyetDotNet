@@ -61,7 +61,12 @@ namespace HurriyetDotNet.Client
         /// 
         /// </summary>
         public PageClient Pages { get; set; }
-        
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public PathClient Paths { get; set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -104,6 +109,7 @@ namespace HurriyetDotNet.Client
                 NewsPhotoGalleries = new NewsPhotoGalleryClient(_authenticator);
                 Pages = new PageClient(_authenticator);
                 Columns = new ColumnClient(_authenticator);
+                Paths = new PathClient(_authenticator);
             }
             else
             {
