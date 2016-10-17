@@ -36,6 +36,7 @@ namespace HurriyetDotNet.Client
                     NewsPhotoGalleries = new NewsPhotoGalleryClient(_authenticator);
                     Pages = new PageClient(_authenticator);
                     Columns = new ColumnClient(_authenticator);
+                    Paths = new PathClient(_authenticator);
                 }
                 else
                     throw new ArgumentException("The auth object must not be null.");
@@ -87,6 +88,7 @@ namespace HurriyetDotNet.Client
                 NewsPhotoGalleries = new NewsPhotoGalleryClient(_authenticator);
                 Pages = new PageClient(_authenticator);
                 Columns = new ColumnClient(_authenticator);
+                Paths = new PathClient(_authenticator);
             }
             else
             {
