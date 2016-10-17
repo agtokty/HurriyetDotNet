@@ -40,7 +40,7 @@ namespace HurriyetDotNet.Client
         /// <returns></returns>
         public List<Path> GetAllPaths()
         {
-            string getUrl = string.Format("{0}/?apikey={2}", Endpoints.Paths, Authentication.AccessToken);
+            string getUrl = string.Format("{0}/?apikey={1}", Endpoints.Paths, Authentication.AccessToken);
             string json = Http.WebRequest.SendGet(new Uri(getUrl));
 
             return Deserializer<List<Path>>.Deserialize(json);
