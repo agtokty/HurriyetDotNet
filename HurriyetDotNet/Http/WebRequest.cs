@@ -39,18 +39,23 @@ namespace HurriyetDotNet.Http
                             string usageHour = response.Headers.GetValues("X-Ratelimit-Remaining-Hour").First();
                             string limitHour = response.Headers.GetValues("X-Ratelimit-Limit-Hour").First();
 
-                            string usageSec = response.Headers.GetValues("X-RateLimit-Remaining-Second").First();
+                            string usageSec = response.Headers.GetValues("X-Ratelimit-Remaining-Second").First();
                             string limitSec = response.Headers.GetValues("X-RateLimit-Limit-Second").First();
-
-
-                            if (!string.IsNullOrEmpty(limitHour) && !string.IsNullOrEmpty(limitSec))
-                            {
-                                Limits.Limit = new Limit(int.Parse(limitSec), int.Parse(limitHour));
-                            }
 
                             if (!string.IsNullOrEmpty(usageHour) && !string.IsNullOrEmpty(usageSec))
                             {
-                                Limits.Usage = new Usage(int.Parse(usageSec), int.Parse(usageHour), int.Parse(limitSec), int.Parse(limitHour));
+                                int _usageSec = int.Parse(usageSec);
+                                int _usageHour = int.Parse(usageHour);
+                                int _limitSec = 0, _limitHour = 0;
+
+                                if (!string.IsNullOrEmpty(limitHour) && !string.IsNullOrEmpty(limitSec))
+                                {
+                                    _limitSec = int.Parse(limitSec);
+                                    _limitHour = int.Parse(limitHour);
+                                    Limits.Limit = new Limit(_limitSec, _limitHour);
+                                }
+
+                                Limits.Usage = new Usage(_limitSec - _usageSec, _limitHour - _usageHour, _limitSec, _limitHour);
                             }
 
                             ResponseCode = response.StatusCode;
@@ -76,20 +81,26 @@ namespace HurriyetDotNet.Http
                 {
                     ResponseReceived?.Invoke(null, new ResponseReceivedEventArgs(httpResponse));
 
-                    string usageHour = httpResponse.GetResponseHeader("X-RateLimit-Remaining-hour");
-                    string limitHour = httpResponse.GetResponseHeader("X-RateLimit-Limit-hour");
+                    string usageHour = httpResponse.GetResponseHeader("X-RateLimit-Remaining-Hour");
+                    string limitHour = httpResponse.GetResponseHeader("X-RateLimit-Limit-Hour");
 
-                    string usageSec = httpResponse.GetResponseHeader("X-RateLimit-Remaining-second");
-                    string limitSec = httpResponse.GetResponseHeader("X-RateLimit-Limit-second");
+                    string usageSec = httpResponse.GetResponseHeader("X-RateLimit-Remaining-Second");
+                    string limitSec = httpResponse.GetResponseHeader("X-RateLimit-Limit-Second");
 
                     if (!string.IsNullOrEmpty(usageHour) && !string.IsNullOrEmpty(usageSec))
                     {
-                        Limits.Usage = new Usage(Int32.Parse(usageSec), Int32.Parse(usageHour));
-                    }
+                        int _usageSec = int.Parse(usageSec);
+                        int _usageHour = int.Parse(usageHour);
+                        int _limitSec = 0, _limitHour = 0;
 
-                    if (!string.IsNullOrEmpty(limitHour) && !string.IsNullOrEmpty(limitSec))
-                    {
-                        Limits.Limit = new Limit(Int32.Parse(usageSec), Int32.Parse(usageHour));
+                        if (!string.IsNullOrEmpty(limitHour) && !string.IsNullOrEmpty(limitSec))
+                        {
+                            _limitSec = int.Parse(limitSec);
+                            _limitHour = int.Parse(limitHour);
+                            Limits.Limit = new Limit(_limitSec, _limitHour);
+                        }
+
+                        Limits.Usage = new Usage(_limitSec - _usageSec, _limitHour - _usageHour, _limitSec, _limitHour);
                     }
 
                     StreamReader reader = new StreamReader(responseStream);

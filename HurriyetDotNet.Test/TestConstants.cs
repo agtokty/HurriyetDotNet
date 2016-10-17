@@ -8,6 +8,6 @@ namespace HurriyetDotNet.Test
 {
     public class TestConstants
     {
-        public static string apiKey = "65a03adeb5f54381be6d9278e514f9db";
+        public static string apiKey = "";
     }
 }

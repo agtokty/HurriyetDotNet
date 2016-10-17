@@ -28,10 +28,7 @@ namespace HurriyetDotNet.Api
             {
                 _usage = value;
 
-                if (UsageChanged != null)
-                {
-                    UsageChanged(null, new UsageChangedEventArgs(value.ShortTermRemaining, value.LongTermRemaining));
-                }
+                UsageChanged?.Invoke(null, new UsageChangedEventArgs(value.ShortTermRemaining, value.LongTermRemaining));
             }
         }
 
