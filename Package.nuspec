@@ -2,14 +2,14 @@
 <package >
   <metadata>
     <id>HurriyetDotNet</id>
-    <version>1.0.0.4</version>
+    <version>1.0.0.5</version>
     <authors>agtokty</authors>
     <owners>agtokty</owners>
     <licenseUrl>https://github.com/agtokty/HurriyetDotNet/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/agtokty/HurriyetDotNet</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>HurriyetDotNet lets you to use Hurriyet Api</description>
-    <releaseNotes>Initial Release</releaseNotes>
+    <releaseNotes>Basic client methods are implemented.</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>HurriyetApiDotNet Hürriyet</tags>
     <dependencies>
